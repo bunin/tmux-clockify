@@ -15,9 +15,8 @@ get_tmux_option() {
 }
 
 clockify_interpolation="\#{clockify}"
-clockify="#(clockify-cli show -f'{{ .Project.Name }} / {{ .Description }} [')"
-clockify+="#(clockify-cli show -D)]"
-
+clockify="#(clockify-cli show -f'{{ .Project.Name }} / {{ .Description }} ')"
+clockify+="[#(clockify-cli show -D)]"
 
 do_interpolation() {
     local input=$1
@@ -36,6 +35,10 @@ update_tmux_option() {
 }
 
 main() {
+    if ! command -v clockify-cli 2>&1 >/dev/null ; then
+        return
+    fi
+
     update_tmux_option "status-right"
     update_tmux_option "status-left"
 }
