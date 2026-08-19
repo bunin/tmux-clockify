@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 set_tmux_option() {
     local option="$1"
     local value="$2"
@@ -15,8 +17,7 @@ get_tmux_option() {
 }
 
 clockify_interpolation="\#{clockify}"
-clockify="#(clockify-cli show -f'{{ .Project.Name }} / {{ .Description }} ')"
-clockify+="[#(clockify-cli show -D)]"
+clockify="#(${CURRENT_DIR}/scripts/clockify-status.sh)"
 
 do_interpolation() {
     local input=$1
